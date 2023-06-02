@@ -105,7 +105,13 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := $(local_module)
 LOCAL_PREBUILT_MODULE_FILE := $(OPTEE_TA_OUT_DIR)/$(LOCAL_MODULE)
 LOCAL_MODULE_PATH := $(TARGET_OUT_VENDOR)/lib/optee_armtz
+ifneq ($(filter %.ta, $(local_module)),)
+# for ta, shlib
 LOCAL_MODULE_CLASS := EXECUTABLES
+else 
+# for static_lib, it won't need to be installed
+LOCAL_MODULE_CLASS := STATIC_LIBRARIES
+endif
 LOCAL_MODULE_TAGS := optional
 
 TA_TMP_DIR := $(subst /,_,$(LOCAL_PATH))
